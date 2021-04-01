@@ -90,13 +90,13 @@ public class AddressDAOClass implements AddressDAO{
 		return null;
 	}
 	@Override
-	public boolean addAddress(Address address) {
+	public boolean addAddress(Address addr) {
 		try {
 		PreparedStatement pstmt = conn.prepareStatement("insert into address (address_streetname, address_city, address_state, address_zipcode) values (?, ?, ?, ?)"); 
-		pstmt.setString(1, address.getStreetName());
-		pstmt.setString(2, address.getCity());
-		pstmt.setString(3, address.getState());
-		pstmt.setInt(4, address.getZipCode());
+		pstmt.setString(1, addr.getStreetName());
+		pstmt.setString(2, addr.getCity());
+		pstmt.setString(3, addr.getState());
+		pstmt.setInt(4, addr.getZipCode());
 		int i = pstmt.executeUpdate();
 		if(i > 0) {
 			return true;
