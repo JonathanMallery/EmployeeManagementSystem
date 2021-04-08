@@ -69,7 +69,7 @@ public class AddressDAOClass implements AddressDAO{
 		return null;
 	}
 	@Override
-	public Address getAddressByName(String streetName) {
+	public Address getAddressByStreetName(String streetName) {
 		try {
 		PreparedStatement pstmt = conn.prepareStatement("select * from address where address_streetname = ?");
 		pstmt.setString(1, streetName);

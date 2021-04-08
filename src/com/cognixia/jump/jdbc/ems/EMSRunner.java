@@ -73,6 +73,7 @@ public class EMSRunner {
 		String city = "";
 		String state = "";
 		int zipCode = 0;
+		int salary = 0;
 		
 		// First Name
 		System.out.print("Enter first name: ");
@@ -105,6 +106,7 @@ public class EMSRunner {
 				System.out.println("Invalid department. Try again.");
 			}
 		}
+		
 		int deptId = departmentDB.getDepartmentByName(department).getId();
 		
 		//Address
@@ -131,21 +133,30 @@ public class EMSRunner {
 			} catch (InputMismatchException e) {
 				System.out.println("Invalid zipcode. Please try again.");
 				continue;
+			}	
+			Address newAddress = new Address(-1, streetAddress, city, state, zipCode);
+			if (!addressDB.addAddress(newAddress)) {
+				System.out.println("Unable to add employee with this address.");
+				continue;
 			}
-			
 			break;
 		}
 		
-		Address newAddress = new Address(-1, streetAddress, city, state, zipCode);
-		if (!addressDB.addAddress(newAddress)) {
-			System.out.println("Unable to add employee with this address.");
-			return;
+		int addId = addressDB.getAddressByStreetName(streetAddress).getAddId();
+		
+		while(true) {
+			System.out.print("Enter empolyee's salary: ");
+			try {
+				salary = scan.nextInt();
+				scan.nextLine();	
+			} catch (InputMismatchException e) {
+				System.out.println("Invalid salary. Please try again.");
+				continue;
+			}
+			break;
 		}
 		
-		int addId = addressDB.getAddressByName(streetAddress).getAddId();
-		
-		
-		Employee newEmployee = new Employee(-1, firstName, lastName, email, addId, deptId); // edit
+		Employee newEmployee = new Employee(-1, firstName, lastName, email, addId, deptId, salary); // edit
 		if (employeeDB.addEmployee(newEmployee)) {
 			System.out.println("Employee successfully added.");
 		} else {
@@ -202,7 +213,7 @@ public class EMSRunner {
 			field = scan.nextLine();			
 			
 			String value = "";
-			switch(field) {
+			switch(field) {  //TODO update switch case with salary update
 				case "first name":
 				case "1":
 					System.out.println("Please enter the new value:");
@@ -213,7 +224,8 @@ public class EMSRunner {
 								employee.getEmployeeLastName(),
 								employee.getEmployeeEmail(),
 								employee.getAddressId(),
-								employee.getDepartmentId()
+								employee.getDepartmentId(),
+								employee.getSalary()
 							);
 					if (employeeDB.updateEmployee(updatedEmployee)) {
 						System.out.println("Employee successfully updated.");
@@ -233,7 +245,8 @@ public class EMSRunner {
 							value,
 							employee.getEmployeeEmail(),
 							employee.getAddressId(),
-							employee.getDepartmentId()
+							employee.getDepartmentId(),
+							employee.getSalary()
 						);
 					if (employeeDB.updateEmployee(updatedEmployee)) {
 						System.out.println("Employee successfully updated.");
@@ -257,7 +270,8 @@ public class EMSRunner {
 							employee.getEmployeeLastName(),
 							value,
 							employee.getAddressId(),
-							employee.getDepartmentId()
+							employee.getDepartmentId(),
+							employee.getSalary()
 						);
 					if (employeeDB.updateEmployee(updatedEmployee)) {
 						System.out.println("Employee successfully updated.");
@@ -284,7 +298,8 @@ public class EMSRunner {
 							employee.getEmployeeLastName(),
 							employee.getEmployeeEmail(),
 							employee.getAddressId(),
-							departmentId
+							departmentId,
+							employee.getSalary()
 						);
 					if (employeeDB.updateEmployee(updatedEmployee)) {
 						System.out.println("Employee successfully updated.");
@@ -328,14 +343,15 @@ public class EMSRunner {
 					}
 					Address addr = new Address(-1, streetAddress, city, state, zipCode);
 					addressDB.addAddress(addr);
-					int addId = addressDB.getAddressByName(streetAddress).getAddId();
+					int addId = addressDB.getAddressByStreetName(streetAddress).getAddId();
 					updatedEmployee = new Employee(
 							employee.getEmployeeId(),
 							employee.getEmployeeFirstName(),
 							employee.getEmployeeLastName(),
 							employee.getEmployeeEmail(),
 							addId,
-							employee.getDepartmentId()
+							employee.getDepartmentId(),
+							employee.getSalary()
 						);
 					if (employeeDB.updateEmployee(updatedEmployee)) {
 						System.out.println("Employee successfully updated.");
@@ -343,7 +359,7 @@ public class EMSRunner {
 					} else {
 						System.out.println("Employee update failed. Please try again.");
 					}
-					
+					 //TODO add salary update
 				
 				default:
 					break;
@@ -355,7 +371,7 @@ public class EMSRunner {
 		System.out.println("Listing employee...\n");
 		System.out.println("available commands are: \n(1) list all \n(2) list employee by id " +
 							"\n(3) list employees by name \n(4) list employees by department name" + 
-							"\n(5) list employees by address");
+							"\n(5) list employees by address"); //TODO add list employees by salary
 		String command = scan.nextLine();
 		switch (command) {
 		case "list all":

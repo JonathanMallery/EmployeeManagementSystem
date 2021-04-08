@@ -9,18 +9,21 @@ public class Employee {
 	private String employeeEmail;
 	private int addressId;
 	private int departmentId;
+	private int salary;
 	
-	// TODO: static employee ID?
-public Employee(int employeeId, String employeeFirstName, String employeeLastName, String employeeEmail,
-			int addressId, int departmentId) {
 
-	this.employeeId = employeeId;
-	this.employeeFirstName = employeeFirstName;
-	this.employeeLastName = employeeLastName;
-	this.employeeEmail = employeeEmail;
-	this.addressId = addressId;
-	this.departmentId = departmentId;
-}
+// TODO: static employee ID?
+	public Employee(int employeeId, String employeeFirstName, String employeeLastName, String employeeEmail,
+			int addressId, int departmentId, int salary) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeFirstName = employeeFirstName;
+		this.employeeLastName = employeeLastName;
+		this.employeeEmail = employeeEmail;
+		this.addressId = addressId;
+		this.departmentId = departmentId;
+		this.salary = salary;
+	}
 	
 	public int getEmployeeId() {
 		return employeeId;
@@ -55,8 +58,16 @@ public Employee(int employeeId, String employeeFirstName, String employeeLastNam
 	public int getDepartmentId() {
 		return departmentId;
 	}
+
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
+	}
+	public int getSalary() {
+		return salary;
+	}
+	
+	public void setSalary(int salary) {
+		this.salary = salary;
 	}
 	@Override
 	public String toString() {

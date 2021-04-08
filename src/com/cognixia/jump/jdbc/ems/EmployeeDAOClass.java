@@ -57,7 +57,8 @@ public class EmployeeDAOClass implements EmployeeDAO {
 						        rs.getString("employee_lastname"),
 						        rs.getString("employee_email"),
 						        rs.getInt("addr_id"),
-						        rs.getInt("dept_id"));
+						        rs.getInt("dept_id"),
+						        rs.getInt("salary"));
 				
 				employeeList.add(empl);
 			}
@@ -86,7 +87,8 @@ public class EmployeeDAOClass implements EmployeeDAO {
 			        rs.getString("employee_lastname"),
 			        rs.getString("employee_email"),
 			        rs.getInt("addr_id"),
-			        rs.getInt("dept_id"));
+			        rs.getInt("dept_id"),
+			        rs.getInt("salary"));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -123,7 +125,8 @@ public class EmployeeDAOClass implements EmployeeDAO {
 				        rs.getString("employee_lastname"),
 				        rs.getString("employee_email"),
 				        rs.getInt("addr_id"),
-				        rs.getInt("dept_id"));
+				        rs.getInt("dept_id"),
+				        rs.getInt("salary"));
 				employees.add(empl);
 			}
 			
@@ -148,13 +151,14 @@ public class EmployeeDAOClass implements EmployeeDAO {
 	public boolean updateEmployee(Employee employee) {
 		try {
 			PreparedStatement pst = 
-			connection.prepareStatement("UPDATE employee SET employee_firstname = ?, employee_lastname = ?, employee_email = ?, addr_id = ?, dept_id = ? WHERE employee_id = ?");
+			connection.prepareStatement("UPDATE employee SET employee_firstname = ?, employee_lastname = ?, employee_email = ?, addr_id = ?, dept_id = ?, salary = ? WHERE employee_id = ?");
 			pst.setString(1, employee.getEmployeeFirstName());
 			pst.setString(2, employee.getEmployeeLastName());
 			pst.setString(3, employee.getEmployeeEmail());
 			pst.setInt(4, employee.getAddressId());
 			pst.setInt(5,  employee.getDepartmentId());
-			pst.setInt(6, employee.getEmployeeId());
+			pst.setInt(6,  employee.getSalary());
+			pst.setInt(7, employee.getEmployeeId());
 			int i = pst.executeUpdate();
 			if(i > 0) {
 				return true;
@@ -209,7 +213,8 @@ public class EmployeeDAOClass implements EmployeeDAO {
 				        rs.getString("employee_lastname"),
 				        rs.getString("employee_email"),
 				        rs.getInt("addr_id"),
-				        rs.getInt("dept_id"));
+				        rs.getInt("dept_id"),
+				        rs.getInt("salary"));
 				
 				employees.add(empl);
 			}
@@ -245,7 +250,8 @@ public class EmployeeDAOClass implements EmployeeDAO {
 				        rs.getString("employee_lastname"),
 				        rs.getString("employee_email"),
 				        rs.getInt("addr_id"),
-				        rs.getInt("dept_id"));
+				        rs.getInt("dept_id"),
+				        rs.getInt("salary"));
 				employees.add(empl);
 			}
 			return employees;
@@ -255,5 +261,35 @@ public class EmployeeDAOClass implements EmployeeDAO {
 		}
 		return null;
 	}
+
+	@Override
+	public List<Employee> getEmployeeBySalary(int salary) {
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			List<Employee> employees = new ArrayList<>();
+			pst = connection.prepareStatement("select * from employee where salary = ?");
+			pst.setInt(1, salary);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				Employee empl = new Employee(
+				        rs.getInt("employee_id"), 
+				        rs.getString("employee_firstname"), 
+				        rs.getString("employee_lastname"),
+				        rs.getString("employee_email"),
+				        rs.getInt("addr_id"),
+				        rs.getInt("dept_id"),
+				        rs.getInt("salary"));
+				employees.add(empl);
+			}
+			return employees;
+		} catch (SQLException e) {
+//			e.printStackTrace();
+			System.out.println("Address Id" + "\"" + AddressId + "\"" + " not found.");
+		}
+		return null;
+	}
+	
+	
 	
 }
