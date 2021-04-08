@@ -14,9 +14,11 @@ public class EMSRunner {
 	public static DepartmentDAOClass departmentDB = new DepartmentDAOClass();
 	public static EmployeeDAOClass employeeDB = new EmployeeDAOClass();
 	public static AddressDAOClass addressDB = new AddressDAOClass();
+	
 	public static void main(String[] args) {
 		promptUser();
 	}
+	
 	public static void promptUser() {
 		Scanner scan = new Scanner(System.in);
 		boolean running = true;
@@ -48,7 +50,8 @@ public class EMSRunner {
 					break;
 				case "exit":
 				case "5":
-					running = false;
+//					running = false;
+					System.exit(0);
 					break;
 				default:
 					System.out.println("Incorrect command. Please enter the numeric value or string corresponding with the available commands.");
